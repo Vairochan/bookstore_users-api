@@ -1,26 +1,41 @@
 package errors
 
-import "net/http"
+import (
+	"errors"
+	"net/http"
+)
 
 type RestError struct {
-	Status int `json:"status"`
-	Error string `json:"error"`
+	Status  int    `json:"status"`
+	Error   string `json:"error"`
 	Message string `json:"message"`
 }
 
-func NewBadReqError(message string) *RestError{
+func NewError(msg string) error {
+	return errors.New(msg)
+}
+
+func NewBadReqError(message string) *RestError {
 	return &RestError{
 		Message: message,
-		Status: http.StatusBadRequest,
-		Error: "bad_request",
+		Status:  http.StatusBadRequest,
+		Error:   "bad_request",
 	}
 
 }
-func NewNotFoundError(message string) *RestError{
+func NewNotFoundError(message string) *RestError {
 	return &RestError{
 		Message: message,
-		Status: http.StatusNotFound,
-		Error: "not_found",
+		Status:  http.StatusNotFound,
+		Error:   "not_found",
+	}
+
+}
+func NewInternalServerError(message string) *RestError {
+	return &RestError{
+		Message: message,
+		Status:  http.StatusInternalServerError,
+		Error:   "internal_server_error",
 	}
 
 }
